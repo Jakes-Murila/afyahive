@@ -27,14 +27,14 @@ class SettingsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Amina Wanjiku',
+                    'Jakes Alvin',
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(height: 3),
                   const Text(
-                    'Health profile 82% complete',
+                    'Getting healthier, one step at a time',
                     style: TextStyle(color: AppColors.slate, fontSize: 12),
                   ),
                 ],
