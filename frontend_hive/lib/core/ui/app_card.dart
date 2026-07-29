@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
 class AppCard extends StatelessWidget {
-  const AppCard({super.key, required this.child, this.padding, this.onTap, this.color});
+  const AppCard({
+    super.key,
+    required this.child,
+    this.padding,
+    this.onTap,
+    this.color,
+  });
 
   final Widget child;
   final EdgeInsetsGeometry? padding;
@@ -19,13 +25,24 @@ class AppCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: AppColors.border.withValues(alpha: .8)),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: .035), blurRadius: 18, offset: const Offset(0, 6)),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: .035),
+            blurRadius: 18,
+            offset: const Offset(0, 6),
+          ),
         ],
       ),
       child: child,
     );
     return onTap == null
         ? card
-        : Material(color: Colors.transparent, child: InkWell(borderRadius: BorderRadius.circular(20), onTap: onTap, child: card));
+        : Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: onTap,
+              child: card,
+            ),
+          );
   }
 }
