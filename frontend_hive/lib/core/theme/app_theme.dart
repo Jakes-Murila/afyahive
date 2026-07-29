@@ -55,7 +55,7 @@ abstract final class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: isDark
-            ? const Color.fromARGB(255, 216, 197, 185)
+            ? const Color.fromARGB(255, 234, 226, 166)
             : Colors.white,
 
         contentPadding: const EdgeInsets.symmetric(

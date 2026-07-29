@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Text(
                       'Welcome back to AfyaHive. Continue your care journey securely.',
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppColors.slate,
+                        color: const Color.fromARGB(255, 55, 61, 173),
                         height: 1.45,
                       ),
                     ),
