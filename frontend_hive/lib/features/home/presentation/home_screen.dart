@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         sliver: SliverList(
           delegate: SliverChildListDelegate([
             Text(
-              'Good morning, Amina',
+              'Good morning, Jakes',
               style: Theme.of(
                 context,
               ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
@@ -35,9 +35,9 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               'A clearer view of your wellbeing today.',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyLarge?.copyWith(color: AppColors.slate),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: const Color.fromARGB(255, 52, 96, 173),
+              ),
             ),
             const SizedBox(height: 20),
             _HealthScoreCard(),
@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   _CarePlanRow(
                     icon: Icons.medication_outlined,
-                    color: AppColors.danger,
+                    color: const Color.fromARGB(255, 224, 185, 185),
                     title: 'Vitamin D3',
                     subtitle: 'Take with lunch - 1:00 PM',
                     trailing: 'Due in 2h',
@@ -117,7 +117,7 @@ class HomeScreen extends StatelessWidget {
                   const Divider(height: 24),
                   _CarePlanRow(
                     icon: Icons.event_available_outlined,
-                    color: AppColors.success,
+                    color: const Color.fromARGB(255, 153, 233, 206),
                     title: 'Dr. James Ouma',
                     subtitle: 'Routine consultation - Tomorrow, 10:00 AM',
                     trailing: 'Confirmed',
