@@ -7,6 +7,6 @@ void main() {
     await tester.pumpWidget(const AfyaHiveApp());
 
     expect(find.text('Your health,\nall in one place.'), findsOneWidget);
-    expect(find.text('Secure sign in'), findsOneWidget);
+    expect(find.text('Secure Sign In'), findsOneWidget);
   });
 }

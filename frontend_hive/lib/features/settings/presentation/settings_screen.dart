@@ -48,17 +48,17 @@ class SettingsScreen extends StatelessWidget {
       const _SettingsGroup(
         title: 'Care preferences',
         items: [
-          const _SettingsItem(
+          _SettingsItem(
             Icons.notifications_none_rounded,
             'Notifications',
             'Appointments, medicine and wellness alerts',
           ),
-          const _SettingsItem(
+          _SettingsItem(
             Icons.security_outlined,
             'Privacy & security',
             'Data sharing and account protection',
           ),
-          const _SettingsItem(
+          _SettingsItem(
             Icons.language_rounded,
             'Language & region',
             'English - Kenya',
@@ -69,12 +69,12 @@ class SettingsScreen extends StatelessWidget {
       const _SettingsGroup(
         title: 'Support',
         items: [
-          const _SettingsItem(
+          _SettingsItem(
             Icons.help_outline_rounded,
             'Help centre',
             'Find answers and contact support',
           ),
-          const _SettingsItem(
+          _SettingsItem(
             Icons.info_outline_rounded,
             'About AfyaHive',
             'Version 1.0.0',
@@ -123,7 +123,7 @@ class _SettingsGroup extends StatelessWidget {
                   leading: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(.12),
+                      color: AppColors.primary.withValues(alpha: .12),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Icon(item.icon, color: AppColors.primary),

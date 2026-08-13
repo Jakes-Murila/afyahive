@@ -1,11 +1,9 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/ui/primary_button.dart';
+import '../data/auth_repository.dart';
+import '../data/auth_session_store.dart';
 import '../../shell/presentation/app_shell.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -23,6 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _obscure = true;
   bool _rememberMe = true;
+  bool _isSubmitting = false;
+  final _authRepository = AuthRepository();
+  final _sessionStore = const AuthSessionStore();
 
   @override
   void dispose() {
@@ -32,58 +33,26 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _login() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    String url;
-
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      // Android Emulator
-      url = 'http://10.0.2.2/afyahive/login.php';
-    } else {
-      // Windows/Web/Desktop
-      url = 'http://localhost/afyahive/login.php';
-    }
-
-    final uri = Uri.parse(url).replace(
-      queryParameters: {
-        'email': _email.text.trim(),
-        'password': _password.text.trim(),
-      },
-    );
-
+    if (!_formKey.currentState!.validate() || _isSubmitting) return;
+    setState(() => _isSubmitting = true);
     try {
-      final response = await http.get(uri);
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        if (data['success'] == 1) {
-          if (!mounted) return;
-
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const AppShell()),
-          );
-        } else {
-          if (!mounted) return;
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Invalid email or password')),
-          );
-        }
-      } else {
-        if (!mounted) return;
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Server Error (${response.statusCode})')),
-        );
-      }
-    } catch (e) {
+      final session = await _authRepository.login(
+        email: _email.text.trim(),
+        password: _password.text,
+      );
+      if (_rememberMe) await _sessionStore.saveToken(session.accessToken);
       if (!mounted) return;
-
-      ScaffoldMessenger.of(
+      Navigator.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Connection Error\n$e')));
+      ).pushReplacement(MaterialPageRoute(builder: (_) => const AppShell()));
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(error.toString())));
+      }
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
     }
   }
 
@@ -239,9 +208,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 16),
 
                       PrimaryButton(
-                        label: 'Secure Sign In',
+                        label: _isSubmitting
+                            ? 'Signing in...'
+                            : 'Secure Sign In',
                         icon: Icons.arrow_forward_rounded,
-                        onPressed: _login,
+                        onPressed: _isSubmitting ? null : _login,
                       ),
 
                       const SizedBox(height: 20),
