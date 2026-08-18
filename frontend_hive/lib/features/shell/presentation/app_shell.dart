@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../home/presentation/home_screen.dart';
 import '../../settings/presentation/settings_screen.dart';
 import '../../vitals/presentation/vitals_screen.dart';
+import '../../common/presentation/resource_list_screen.dart';
 
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
@@ -34,7 +35,11 @@ class _AppShellState extends State<AppShell> {
               ),
             )
           else
-            const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+            IconButton(
+              tooltip: 'Go home',
+              onPressed: () => setState(() => _index = 0),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18),
+            ),
           const SizedBox(width: 10),
           Text(
             _titles[_index],
@@ -44,7 +49,34 @@ class _AppShellState extends State<AppShell> {
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => const ResourceListScreen(
+                title: 'Notifications',
+                route: 'reminders',
+                emptyMessage: 'You have no active care notifications.',
+                icon: Icons.notifications_none_rounded,
+                fields: [
+                  ResourceField(
+                    'medication_name',
+                    'Medicine name',
+                    required: true,
+                  ),
+                  ResourceField(
+                    'schedule_time',
+                    'Time (HH:MM:SS)',
+                    required: true,
+                  ),
+                  ResourceField(
+                    'frequency',
+                    'Frequency',
+                    kind: InputKind.select,
+                    options: ['daily', 'weekly', 'as_needed'],
+                  ),
+                ],
+              ),
+            ),
+          ),
           tooltip: 'Notifications',
           icon: Badge(child: const Icon(Icons.notifications_none_rounded)),
         ),

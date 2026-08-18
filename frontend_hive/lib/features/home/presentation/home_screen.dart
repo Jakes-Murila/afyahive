@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/ui/app_card.dart';
 import '../../../core/ui/section_header.dart';
+import '../../common/presentation/service_catalog.dart';
+import '../../common/presentation/resource_list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   static const _services = [
-    (Icons.auto_awesome_rounded, 'AI Health\nAssistant', Color(0xFFEAF3FF)),
-    (Icons.health_and_safety_outlined, 'Symptom\nChecker', Color(0xFFFFF0E9)),
     (Icons.calendar_month_outlined, 'Book an\nappointment', Color(0xFFEAF8F2)),
     (Icons.medication_outlined, 'Medicine\nreminders', Color(0xFFFFF7DE)),
     (Icons.video_camera_front_outlined, 'Telemedicine', Color(0xFFF0ECFF)),
@@ -42,9 +42,11 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             _HealthScoreCard(),
             const SizedBox(height: 28),
-            const SectionHeader(
+            SectionHeader(
               title: 'Care at your fingertips',
               actionLabel: 'See all',
+              onAction: () =>
+                  ServiceCatalog.open(context, 'Fitness integration'),
             ),
             const SizedBox(height: 12),
           ]),
@@ -66,8 +68,10 @@ class HomeScreen extends StatelessWidget {
               label: service.$2.replaceAll('\n', ' '),
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
-                onTap: () =>
-                    _showService(context, service.$2.replaceAll('\n', ' ')),
+                onTap: () => ServiceCatalog.open(
+                  context,
+                  service.$2.replaceAll('\n', ' '),
+                ),
                 child: Column(
                   children: [
                     Container(
@@ -105,6 +109,34 @@ class HomeScreen extends StatelessWidget {
             const SectionHeader(title: "Today's care plan"),
             const SizedBox(height: 12),
             AppCard(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const ResourceListScreen(
+                    title: 'Medicine reminders',
+                    route: 'reminders',
+                    emptyMessage: 'No medicine reminders yet.',
+                    icon: Icons.medication_outlined,
+                    fields: [
+                      ResourceField(
+                        'medication_name',
+                        'Medicine name',
+                        required: true,
+                      ),
+                      ResourceField(
+                        'schedule_time',
+                        'Time (HH:MM:SS)',
+                        required: true,
+                      ),
+                      ResourceField(
+                        'frequency',
+                        'Frequency',
+                        kind: InputKind.select,
+                        options: ['daily', 'weekly', 'as_needed'],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               child: Column(
                 children: [
                   _CarePlanRow(
@@ -134,14 +166,6 @@ class HomeScreen extends StatelessWidget {
       ),
     ],
   );
-
-  static void _showService(BuildContext context, String label) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('$label is ready to connect to your care provider.'),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
 }
 
 class _HealthScoreCard extends StatelessWidget {

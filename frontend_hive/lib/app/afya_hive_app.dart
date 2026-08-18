@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/theme/app_theme.dart';
-import '../features/auth/presentation/login_screen.dart';
+import '../features/auth/presentation/auth_gate.dart';
 
 class AfyaHiveApp extends StatelessWidget {
   const AfyaHiveApp({super.key});
@@ -14,7 +14,7 @@ class AfyaHiveApp extends StatelessWidget {
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-      home: const LoginScreen(),
+      home: const AuthGate(),
     );
   }
 }

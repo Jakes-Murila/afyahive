@@ -108,7 +108,7 @@ function profile_route(int $userId, string $method): never {
         $statement->execute(['id' => $userId]);
         respond(true, 'Profile retrieved.', $statement->fetch());
     }
-    if ($method === 'PUT') {
+    if ($method === 'PUT' || $method === 'PATCH') {
         $input = body();
         $gender = required_string($input, 'gender', 10);
         if (!in_array($gender, ['Male', 'Female', 'Other'], true)) respond(false, 'gender must be Male, Female, or Other.', null, 422);

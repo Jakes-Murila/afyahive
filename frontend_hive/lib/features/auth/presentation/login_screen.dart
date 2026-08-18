@@ -4,6 +4,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/ui/primary_button.dart';
 import '../data/auth_repository.dart';
 import '../data/auth_session_store.dart';
+import 'register_screen.dart';
 import '../../shell/presentation/app_shell.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -199,7 +200,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           const Text('Remember me'),
                           const Spacer(),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () => showDialog<void>(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Password recovery'),
+                                content: const Text(
+                                  'Password recovery has not been configured for this local development server. Please contact your AfyaHive administrator.',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Close'),
+                                  ),
+                                ],
+                              ),
+                            ),
                             child: const Text('Forgot password?'),
                           ),
                         ],
@@ -219,9 +234,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       Center(
                         child: TextButton(
-                          onPressed: () {
-                            // TODO: Navigate to Register Screen
-                          },
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const RegisterScreen(),
+                            ),
+                          ),
                           child: const Text(
                             'New to AfyaHive? Create an account',
                           ),

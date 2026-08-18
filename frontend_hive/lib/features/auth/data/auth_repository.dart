@@ -45,6 +45,54 @@ class AuthRepository {
       );
     }
   }
+
+  Future<AuthSession> register({
+    required String firstname,
+    required String lastname,
+    required String email,
+    required String password,
+  }) => _authenticate('register', {
+    'firstname': firstname,
+    'lastname': lastname,
+    'email': email,
+    'password': password,
+  });
+
+  Future<AuthSession> _authenticate(
+    String action,
+    Map<String, String> body,
+  ) async {
+    try {
+      final response = await _client
+          .post(
+            Uri.parse('${ApiConfig.baseUrl}/api.php?route=v1/auth/$action'),
+            headers: const {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: jsonEncode(body),
+          )
+          .timeout(const Duration(seconds: 20));
+      final decoded = jsonDecode(response.body) as Map<String, dynamic>;
+      if (response.statusCode < 200 ||
+          response.statusCode >= 300 ||
+          decoded['success'] != true) {
+        throw ApiException(
+          decoded['message'] as String? ?? 'Unable to continue.',
+          statusCode: response.statusCode,
+        );
+      }
+      return AuthSession.fromJson(decoded['data'] as Map<String, dynamic>);
+    } on FormatException {
+      throw const ApiException('The server returned an invalid response.');
+    } on ApiException {
+      rethrow;
+    } catch (_) {
+      throw const ApiException(
+        'Unable to reach AfyaHive. Check your connection.',
+      );
+    }
+  }
 }
 
 class AuthSession {
