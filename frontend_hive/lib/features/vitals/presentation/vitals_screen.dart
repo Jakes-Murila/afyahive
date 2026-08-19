@@ -31,11 +31,11 @@ class _VitalsScreenState extends State<VitalsScreen> {
   }
 
   Future<void> _refresh() async => setState(() => _future = _load());
-  Future<void> _add() async {
+  Future<void> _add([String initialType = 'blood_pressure']) async {
     final added = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      builder: (_) => _AddVital(api: _api),
+      builder: (_) => _AddVital(api: _api, initialType: initialType),
     );
     if (added == true && mounted) {
       await _refresh();
@@ -123,6 +123,7 @@ class _VitalsScreenState extends State<VitalsScreen> {
                         title: 'Heart rate',
                         reading: latest['heart_rate'],
                         unit: 'bpm',
+                        onTap: () => _add('heart_rate'),
                       ),
                       _Metric(
                         icon: Icons.water_drop_rounded,
@@ -130,6 +131,7 @@ class _VitalsScreenState extends State<VitalsScreen> {
                         title: 'Blood oxygen',
                         reading: latest['blood_oxygen'],
                         unit: '% SpO₂',
+                        onTap: () => _add('blood_oxygen'),
                       ),
                       _Metric(
                         icon: Icons.thermostat_rounded,
@@ -137,6 +139,7 @@ class _VitalsScreenState extends State<VitalsScreen> {
                         title: 'Temperature',
                         reading: latest['temperature'],
                         unit: '°C',
+                        onTap: () => _add('temperature'),
                       ),
                       _Metric(
                         icon: Icons.monitor_weight_outlined,
@@ -144,6 +147,7 @@ class _VitalsScreenState extends State<VitalsScreen> {
                         title: 'Weight',
                         reading: latest['weight'],
                         unit: 'kg',
+                        onTap: () => _add('weight'),
                       ),
                     ],
                   ),
@@ -301,13 +305,16 @@ class _Metric extends StatelessWidget {
     required this.title,
     required this.reading,
     required this.unit,
+    required this.onTap,
   });
   final IconData icon;
   final Color color;
   final String title, unit;
   final Vital? reading;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext c) => AppCard(
+    onTap: onTap,
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -330,7 +337,7 @@ class _Metric extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          reading?.status ?? unit,
+          reading?.status ?? 'Tap to add',
           style: TextStyle(
             color: reading?.color ?? AppColors.slate,
             fontSize: 11,
@@ -420,8 +427,9 @@ class _Painter extends CustomPainter {
 }
 
 class _AddVital extends StatefulWidget {
-  const _AddVital({required this.api});
+  const _AddVital({required this.api, required this.initialType});
   final ApiClient api;
+  final String initialType;
   @override
   State<_AddVital> createState() => _AddVitalState();
 }
@@ -430,8 +438,14 @@ class _AddVitalState extends State<_AddVital> {
   final _form = GlobalKey<FormState>();
   final _value = TextEditingController();
   final _second = TextEditingController();
-  String _type = 'blood_pressure';
+  late String _type;
   bool _saving = false;
+  @override
+  void initState() {
+    super.initState();
+    _type = widget.initialType;
+  }
+
   @override
   void dispose() {
     _value.dispose();
