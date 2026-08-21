@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
-import '../../../core/ui/app_card.dart';
-import '../../../core/ui/section_header.dart';
+import '../../../src/theme/app_colors.dart';
+import '../../../src/ui/app_card.dart';
+import '../../../src/ui/section_header.dart';
 import '../../common/presentation/service_catalog.dart';
 import '../../common/presentation/resource_list_screen.dart';
 

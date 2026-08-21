@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/network/api_client.dart';
-import '../../../core/network/api_exception.dart';
-import '../../../core/ui/primary_button.dart';
+import '../../../src/network/api_client.dart';
+import '../../../src/network/api_exception.dart';
+import '../../../src/ui/primary_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

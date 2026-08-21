@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/network/api_client.dart';
-import '../../../core/network/api_exception.dart';
-import '../../../core/theme/app_colors.dart';
-import '../../../core/ui/app_card.dart';
-import '../../../core/ui/primary_button.dart';
+import '../../../src/network/api_client.dart';
+import '../../../src/network/api_exception.dart';
+import '../../../src/theme/app_colors.dart';
+import '../../../src/ui/app_card.dart';
+import '../../../src/ui/primary_button.dart';
 
 enum InputKind { text, number, select, multiline, toggle }
 

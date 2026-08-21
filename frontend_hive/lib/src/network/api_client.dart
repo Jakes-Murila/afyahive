@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../features/auth/data/auth_session_store.dart';
+import '../../screens/auth/data/auth_session_store.dart';
 import 'api_config.dart';
 import 'api_exception.dart';
 

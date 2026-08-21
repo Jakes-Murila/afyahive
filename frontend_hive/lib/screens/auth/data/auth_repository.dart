@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../../../core/network/api_config.dart';
-import '../../../core/network/api_exception.dart';
+import '../../../src/network/api_config.dart';
+import '../../../src/network/api_exception.dart';
 
 class AuthRepository {
   AuthRepository({http.Client? client}) : _client = client ?? http.Client();

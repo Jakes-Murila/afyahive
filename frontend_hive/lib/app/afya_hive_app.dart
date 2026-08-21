@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../core/theme/app_theme.dart';
-import '../features/auth/presentation/auth_gate.dart';
+import '../src/theme/app_theme.dart';
+import '../screens/auth/presentation/auth_gate.dart';
 
 class AfyaHiveApp extends StatelessWidget {
   const AfyaHiveApp({super.key});

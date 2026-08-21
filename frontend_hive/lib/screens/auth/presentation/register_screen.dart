@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/ui/primary_button.dart';
+import '../../../src/ui/primary_button.dart';
 import '../../shell/presentation/app_shell.dart';
 import '../data/auth_repository.dart';
 import '../data/auth_session_store.dart';
